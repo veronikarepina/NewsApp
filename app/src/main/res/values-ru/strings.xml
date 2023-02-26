@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="news">Новости</string>
+    <string name="favorite">Избранное</string>
+    <string name="empty">Пусто</string>
+    <string name="country">ru</string>
+    <string name="web">Перейти в источник</string>
+</resources>
