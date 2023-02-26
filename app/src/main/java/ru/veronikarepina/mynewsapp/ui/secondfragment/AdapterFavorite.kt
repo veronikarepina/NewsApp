@@ -10,22 +10,29 @@ import coil.load
 import ru.veronikarepina.mynewsapp.R
 import ru.veronikarepina.mynewsapp.databinding.CardViewBinding
 import ru.veronikarepina.mynewsapp.model.Article
-import ru.veronikarepina.mynewsapp.ui.Listener
+import ru.veronikarepina.mynewsapp.utils.DateUtils
 
-class AdapterFavorite(private val listener: Listener): ListAdapter<Article, AdapterFavorite.FavoriteHolder>(Comparator()) {
+class AdapterFavorite(
+    private val onClickItemListener: (Article) -> Unit,
+    private val deleteItemFavorite: (Article) -> Unit
+): ListAdapter<Article, AdapterFavorite.FavoriteHolder>(Comparator()) {
     class FavoriteHolder(view: View): RecyclerView.ViewHolder(view) {
         private val binding = CardViewBinding.bind(view)
-        fun bind(item: Article, listener: Listener) = with(binding){
-            dataText.text = item.publishedAt
+        fun bind(
+            item: Article,
+            onClickItemListener: (Article) -> Unit,
+            deleteItemFavorite: (Article) -> Unit
+        ) = with(binding){
+            dataText.text = item.publishedAt?.let { DateUtils.toDefaultDate(it) }
             titleText.text = item.title
             descriptionText.text = item.description
             imageView.load(item.urlToImage)
             favoriteIcon.setImageResource(R.drawable.favorite_painted)
             itemView.setOnClickListener{
-                listener.onClick(item)
+                onClickItemListener.invoke(item)
             }
             favoriteIcon.setOnClickListener{
-                listener.delNewDb(item)
+                deleteItemFavorite.invoke(item)
             }
         }
     }
@@ -46,6 +53,6 @@ class AdapterFavorite(private val listener: Listener): ListAdapter<Article, Adap
     }
 
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
-        holder.bind(getItem(position), listener)
+        holder.bind(getItem(position), onClickItemListener, deleteItemFavorite)
     }
 }

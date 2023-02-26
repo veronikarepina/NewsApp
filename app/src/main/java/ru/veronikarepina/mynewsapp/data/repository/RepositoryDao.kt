@@ -7,11 +7,11 @@ import ru.veronikarepina.mynewsapp.model.Article
 
 class RepositoryDao(private val newDao: Dao) {
     val getAll: LiveData<List<Article>> = newDao.getAllNews()
-    suspend fun addNewRepository(new: Article){
-        newDao.addNewDao(new)
+    suspend fun addNew(new: Article){
+        newDao.insert(new)
     }
-    suspend fun delNewRepository(new: Article){
-        newDao.deleteNewDao(new)
+    suspend fun delNew(new: Article){
+        newDao.delete(new)
     }
     suspend fun checkEmptyRepository(): Int {
         return newDao.checkEmpty()

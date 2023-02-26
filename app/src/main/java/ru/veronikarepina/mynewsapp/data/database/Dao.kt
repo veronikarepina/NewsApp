@@ -7,13 +7,13 @@ import ru.veronikarepina.mynewsapp.model.Article
 @Dao
 interface Dao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addNewDao(new: Article)
+    suspend fun insert(new: Article)
     @Query("SELECT * FROM news_table")
     fun getAllNews(): LiveData<List<Article>>
     @Query("SELECT COUNT (*) FROM news_table")
     suspend fun checkEmpty(): Int
     @Delete
-    suspend fun deleteNewDao(new: Article)
+    suspend fun delete(new: Article)
     @Query("SELECT flag FROM news_table WHERE title = :title")
     fun getFlag(title: String?): Int
     @Query("SELECT * FROM news_table WHERE title = :title")
